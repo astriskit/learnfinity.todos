@@ -1,3 +1,22 @@
+# About
+
+A simple todo app with feature to add hashtag for easy searching.
+
+## User flows
+
+- Add a todo by writing in the text field and pressing enter/clicking "Go".
+- Clear all the todos by clicking on "CLEAR".
+- Add hashtags as a part of text while adding todo.
+- Find hashtag containing todos by first switching the mode clicking the button having label "Find"; The default mode is "Add".
+- Write hashtag(s) using `#{tag}` separated by space and pressing enter/clicking "Go".
+- Only tasks with all the tags entered will be shown.
+- Towards the footer, a summary of todo and finished items is shown.
+- Click on the footer buttons, in the summary section to go-to/scroll-to the relevant items.
+- Refresh the window/browser-tab to see that the tasks so-far entered persists.
+- Works without internet, once loaded on the browser. Uses local-memory.
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
