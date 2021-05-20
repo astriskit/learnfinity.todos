@@ -1,0 +1,99 @@
+.appRoot {
+  width: calc(100vw - 100px);
+  height: 90vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  padding: 10px;
+  max-width: 95%;
+
+  @media screen and (min-width: 600px) {
+    max-width: 80%;
+  }
+
+  .inputWrapper {
+    & > :first-child {
+      flex: 100%;
+    }
+    & > :not(:first-child) {
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 10px;
+    }
+    flex-wrap: wrap;
+
+    @media screen and (min-width: 600px) {
+      flex-wrap: nowrap;
+      & > :not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }
+  .tasksWrapper {
+    min-height: 70vh;
+    max-height: 70vh;
+    overflow: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    @media screen and (min-width: 600px) {
+      margin-top: 40px;
+    }
+    .taskWrapper {
+      margin-bottom: 6px;
+      .todoItem {
+        cursor: pointer;
+        padding: 10px;
+        border: 0.2px solid rgb(214, 213, 213);
+        border-radius: 6px;
+        margin-bottom: 4px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: medium;
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-evenly;
+        @media screen and (min-width: 600px) {
+          font-size: large;
+        }
+        :global(code.highlight) {
+          background-color: yellow;
+        }
+        :global(span.word),
+        :global(code.word) {
+          margin-right: 1ch;
+        }
+      }
+      .doneTodoItem {
+        color: grey;
+        border-color: rgb(251, 232, 242);
+      }
+    }
+  }
+  .summary {
+    position: relative;
+    top: -6%;
+
+    & > * {
+      border: 2px solid rgb(251, 232, 242);
+      border-radius: 6px;
+      padding: 6px;
+      cursor: pointer;
+      &:active {
+        background-color: rgb(204, 204, 197);
+      }
+      & > * {
+        font-size: small !important;
+      }
+      @media screen and (min-width: 600px) {
+        & > * {
+          font-size: medium !important;
+        }
+        padding: 10px;
+      }
+    }
+    & > :last-child {
+      border-color: rgb(214, 213, 213);
+      cursor: pointer;
+    }
+  }
+}
