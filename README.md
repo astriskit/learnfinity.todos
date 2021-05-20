@@ -9,7 +9,8 @@ A simple todo app with feature to add hashtag for easy searching.
 - Add hashtags as a part of text while adding todo.
 - Find hashtag containing todos by first switching the mode clicking the button having label "Find"; The default mode is "Add".
 - Write hashtag(s) using `#{tag}` separated by space and pressing enter/clicking "Go".
-- Only tasks with all the tags entered will be shown.
+- Only tasks with all the tags entered will be shown. Note: "#fault" won't match "$fault,";
+- To clear the tags, either change the mode or clean the input-field and hit enter.
 - Towards the footer, a summary of todo and finished items is shown.
 - Click on the footer buttons, in the summary section to go-to/scroll-to the relevant items.
 - Refresh the window/browser-tab to see that the tasks so-far entered persists.
