@@ -1,5 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
+import user from "@testing-library/user-event";
 import App from "./App";
 
 const initTodos = [
@@ -16,42 +17,62 @@ const initTodos = [
     lastUpdated: Date.now() + 1000 * 60 * 10,
   },
 ];
+/*
+ * TODO: clear warnings
+ */
+test("The todo page test without hash", async () => {
+  act(() => {
+    render(<App />);
+  });
 
-test("The todo page and features", () => {
-  render(<App />);
-
+  /* has input-field */
   const todoInput = screen.getByTestId("todo-input");
   expect(todoInput).toBeInTheDocument();
 
   const firstTodo = "First todo";
   const secondTodo = "Second todo";
 
-  fireEvent.change(todoInput, { target: { value: firstTodo } });
+  /* input field works ok? */
+  await user.type(todoInput, firstTodo);
+
   expect(todoInput).toHaveValue(firstTodo);
 
-  fireEvent.keyPress(todoInput, { key: "enter", keyCode: 13, code: 13 });
-  fireEvent.change(todoInput, { target: { value: secondTodo } });
-  fireEvent.keyPress(todoInput, { key: "enter", keyCode: 13, code: 13 });
+  await user.type(todoInput, "{enter}");
+  await user.type(todoInput, secondTodo);
+  await user.type(todoInput, "{enter}");
 
-  const todoOneTextControl = screen.getByTestId("first-todo");
-  const todoTwoTextControl = screen.getByTestId("second-todo");
-  expect(todoOneTextControl).toBeInTheDocument();
-  expect(todoTwoTextControl).toBeInTheDocument();
+  /* input field entered items are added? */
+  const textControls = screen.getByTestId("tasks-wrapper");
+  expect(textControls).toBeInTheDocument();
+  expect(textControls.children).toHaveLength(2);
 
-  fireEvent.click(todoOneTextControl);
+  const todoOneTextControl = textControls.children[0].children[0];
+  const todoTwoTextControl = textControls.children[1].children[0];
+  expect(todoOneTextControl).toHaveTextContent(secondTodo.split(" ").join(""));
+  expect(todoTwoTextControl).toHaveTextContent(firstTodo.split(" ").join(""));
+
+  /* task clicked is added to done category? */
+  await user.click(todoOneTextControl);
   expect(todoOneTextControl).toHaveAttribute("data-done", "true");
-  const todosParent = todoOneTextControl.parentNode;
-  expect(todosParent?.lastChild).toBe(todoOneTextControl);
-  fireEvent.click(todoTwoTextControl);
-  expect(todoTwoTextControl).toHaveAttribute("data-done", "true");
-  expect(todosParent?.lastChild).toBe(todoTwoTextControl);
 
+  /* tasks toggled for done are ordered correctly? */
+  expect(textControls.children[1].children[0]).toBe(todoOneTextControl);
+  await user.click(todoTwoTextControl);
+  expect(todoTwoTextControl).toHaveAttribute("data-done", "true");
+  expect(textControls.children[0].children[0]).toBe(todoTwoTextControl);
+
+  /* tasks are cleaned by clicking control? */
   const reset = screen.getByTestId("reset-todos");
   expect(reset).toBeInTheDocument();
-  fireEvent.click(reset);
+  await user.click(reset);
 
-  expect(todosParent?.children.length).toHaveLength(0);
+  expect(screen.getByTestId("empty-list")).toBeInTheDocument();
 
-  render(<App todos={initTodos} />);
-  expect(todosParent?.children.length).toHaveLength(initTodos.length);
+  /* tasks provided to App as props renders? */
+  act(() => {
+    render(<App todos={initTodos} />);
+  });
+  expect(screen.getByTestId("tasks-wrapper").children).toHaveLength(
+    initTodos.length
+  );
 });

@@ -156,6 +156,7 @@ export const AppRoot = () => {
             fullWidth
             error={tField.error}
             helperText={tField.helperText}
+            inputProps={{ "data-testid": "todo-input" }}
           />
         </Grid>
         <Grid item>
@@ -189,6 +190,7 @@ export const AppRoot = () => {
             color="secondary"
             size="small"
             title="clear all items"
+            data-testid="reset-todos"
           >
             Clear
           </Button>
@@ -202,8 +204,9 @@ export const AppRoot = () => {
           direction="column"
           alignItems="stretch"
           wrap="nowrap"
+          data-testid="tasks-wrapper"
         >
-          {tasks.map(({ id, done, uTitle }) => {
+          {tasks.map(({ id, done, uTitle }, idx) => {
             return (
               <Grid item key={id} className={styles.taskWrapper}>
                 <div
@@ -247,7 +250,7 @@ export const AppRoot = () => {
       )}
       {!!!tasks.length && mode === "add" && (
         <Grid item>
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" data-testid="empty-list">
             Add items using the text-field above
           </Typography>
         </Grid>
